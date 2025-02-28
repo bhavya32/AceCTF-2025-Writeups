@@ -1,0 +1,1 @@
+Find odd checksum, then extract text, which was whitespace chars. did some hex substitution to convert to binary, and decode it.

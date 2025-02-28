@@ -1,0 +1,1 @@
+go to root directory, you will find list of all files. find the suspicious one, and find the flag.

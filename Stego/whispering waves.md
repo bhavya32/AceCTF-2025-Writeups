@@ -1,0 +1,1 @@
+bruteforce using wordlist, open in audacity, high frequency is 1, low is 0. binary to ascii

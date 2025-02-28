@@ -1,0 +1,1 @@
+steghide, zip file, extract using bruteforce, flag.txt

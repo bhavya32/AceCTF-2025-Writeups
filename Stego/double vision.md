@@ -1,0 +1,1 @@
+XOR both images, morse code appears in top right. decode to flag
