@@ -29,4 +29,6 @@ This challenge required forensic analysis of a **disk image** to locate a hidden
 ---
 
 🏆 **Final Flag:**  
+```
 ACECTF{7h3_d1ff3r3nc3_b37w33n_y0u_4nd_m3}
+```
