@@ -1,15 +1,54 @@
-Write-up: Another Reading Between the Lines?
+# Another Reading Between the Lines?  
 
-Challenge Analysis:
-    •    The file hidden is an ASCII text file with different line break formats (CRLF and LF).
-    •    Running strings did not reveal any clear text, indicating hidden data using an unconventional method.
+**Category:** Steganography / Encoding  
 
-Solution Approach:
-    
-Analyze the file and detect different newline patterns (\r\n and \n).
-Identify that CRLF = 1 and LF = 0, indicating a binary encoding technique.
-Convert the binary representation into ASCII text to extract the flag.
+This challenge involves analyzing a **text file with hidden data** embedded within **line break formats**. The goal is to extract the encoded information by converting **newline variations** into binary and then decoding it into ASCII text.  
 
-Flag:
+---
 
+### Challenge  
+
+**Provided File:** `hidden`  
+
+---
+
+## Overview  
+
+1. **Understanding the Encoding Technique**  
+   - The file appears to contain text formatted with a mix of **Carriage Return + Line Feed (CRLF)** and **Line Feed (LF)**.  
+   - These line break variations can be interpreted as **binary values**:  
+     - `CRLF (\r\n) → 1`  
+     - `LF (\n) → 0`  
+
+2. **Extracting Hidden Data**  
+   - By reading the file’s **newline formatting**, a binary string is formed.  
+   - This binary data can be **converted to ASCII characters** to reveal the flag.  
+
+---
+
+## Steps to Solve  
+
+1. **Identify Line Break Patterns**  
+   - Use a command-line tool to inspect different newline characters:  
+     ```bash
+     cat -A hidden  # Displays hidden characters (LF = $, CRLF = ^M$)
+     ```
+   - Verify if `CRLF` and `LF` follow a consistent **binary pattern**.  
+
+2. **Convert Newline Encodings to Binary**  
+   - Map `CRLF` to **1** and `LF` to **0**.  
+   - Construct a binary string by reading the line endings.  
+
+3. **Convert Binary to ASCII**  
+   - Split the binary string into **8-bit segments**.  
+   - Convert each segment to **ASCII characters**.  
+
+---
+
+### Final Flag  
+
+After decoding the binary pattern hidden in newline formatting, the extracted flag is:  
+
+```
 ACECTF{n0_r34d1n6_be7w33n_7h3_l1n35}
+```
