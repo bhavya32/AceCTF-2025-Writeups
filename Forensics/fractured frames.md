@@ -4,22 +4,21 @@ Writeup: Fractured Frames (ACECTF)
 We received a suspicious image that had hidden information within its structure. The hint suggested that the image wasn’t erased or encoded, but rather manipulated structurally.
 🛠️ Solution Approach
 
-    Checking the Image Dimensions
-        Using exiftool to inspect the metadata:
+🔍 **Checking the Image Dimensions**  
+- Use `exiftool` to inspect the metadata:  
+  ```bash
+  exiftool challenge.jpg
+  ```  
+- The **height value** appeared modified, hinting at hidden data.  
 
-        exiftool image.png
+🛠 **Fixing the Image Height**  
+- Adjust the **height by 1 pixel** using a **hex editor** (`hexedit`, `HXD`, or `bless`):  
+  - Open the file in the hex editor.  
+  - Locate the **height value** in the image header.  
+  - Change **00** to **01** in the appropriate byte.  
 
-        The height value was modified, which hinted at hidden data.
-
-    Fixing the Image Height
-        The solution involved changing the height by 1 pixel.
-        This can be done using a hex editor:
-            Open the file in a hex editor (hexedit or HXD).
-            Locate the height value.
-            Change 00 to 01 in the appropriate byte.
-
-    Viewing the Fixed Image
-        After adjusting the height, the hidden flag became visible at the bottom of the image.
+👀 **Viewing the Fixed Image**  
+- After modifying the height, the **hidden flag** became visible at the **bottom of the image**.
 
 🏆 Final Flag
 
