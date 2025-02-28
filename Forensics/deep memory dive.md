@@ -27,4 +27,8 @@ A gamer noticed unusual behavior in their system startup registry. The task was 
 
 ---
 
-🏆 **Final Flag:**  ACECTF{retrieved_memory_r1ddl3s}
+🏆 **Final Flag:**  
+
+```
+ACECTF{retrieved_memory_r1ddl3s}
+```
