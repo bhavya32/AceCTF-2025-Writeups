@@ -1,30 +1,68 @@
-Decompile with IDA Pro or Ghidra there is function named `p3xr9q_t1zz`.
+# Running Out of Time  
 
-```c
-int p3xr9q_t1zz()
-{
-  char v1[27]; // [rsp+20h] [rbp-20h]
-  char v2; // [rsp+3Bh] [rbp-5h]
-  unsigned int i; // [rsp+3Ch] [rbp-4h]
+**Category:** Reverse Engineering  
 
-  v1[0] = 29;
-  v1[1] = 27;
-  v1[2] = 71;
-  v1[3] = 25;
-  v1[4] = 117;
-  v1[5] = 31;
-  v1[6] = 29;
-  v1[7] = 26;
-  v1[8] = 90;
-  v1[9] = 90;
-  v1[10] = 25;
-  v1[11] = 78;
-  v2 = 42;
-  printf("Success! Here is your output: ");
-  for ( i = 0; i <= 0xB; ++i )
-    putchar(v2 ^ (unsigned __int8)v1[i]);
-  return putchar(10);
-}
+A mysterious program prompts for a specific number, but the correct value changes every time it's executed. Your task is to analyze the binary, reverse-engineer the logic, and predict the correct input to trigger the win condition.  
+
+---
+
+### Challenge  
+
+**Provided File:** `Running_Out_Of_Time.exe`  
+
+---
+
+## Overview  
+
+1. **Understanding the Program Logic**  
+   - The binary contains a function named `p3xr9q_t1zz`.  
+   - This function operates on a predefined set of values, applying a transformation to generate an output.  
+
+2. **Reverse-Engineering the Function**  
+   - Decompiling the binary using **IDA Pro** or **Ghidra** reveals the logic inside `p3xr9q_t1zz`.  
+   - The function stores a set of predefined values and XORs each of them with `42` before printing the result.  
+
+3. **Extracting the Hidden Output**  
+   - By manually performing the XOR operation, we can retrieve the intended output, which is the flag.  
+
+---
+
+## Steps to Exploit  
+
+1. **Decompile the Binary**  
+   - Load `Running_Out_Of_Time.exe` into **IDA Pro** or **Ghidra**.  
+   - Locate the function `p3xr9q_t1zz`.  
+
+2. **Extract the Hidden Data**  
+   - Inside the function, we find a predefined array of numbers:  
+     ```plaintext
+     29, 27, 71, 25, 117, 31, 29, 26, 90, 90, 25, 78
+     ```
+   - These values are XORed with `42` before being printed as characters.  
+
+3. **Reconstruct the Flag**  
+   - Apply the XOR operation manually to each value:  
+     ```python
+     values = [29, 27, 71, 25, 117, 31, 29, 26, 90, 90, 25, 78]
+     key = 42
+
+     flag = ''.join(chr(v ^ key) for v in values)
+     print("Extracted Flag:", flag)
+     ```
+   - This reveals the flag when executed.  
+
+---
+
+## Exploit Script  
+
+```python
+# Reverse-Engineering the XOR Operation
+values = [29, 27, 71, 25, 117, 31, 29, 26, 90, 90, 25, 78]
+key = 42
+
+# XOR each value with 42 to get the original characters
+flag = ''.join(chr(v ^ key) for v in values)
+print("Extracted Flag:", flag)
 ```
 
-Just xor `29, 27, 71, 25, 117, 31, 29, 26, 90, 90, 25, 78` with `42`.
+---
