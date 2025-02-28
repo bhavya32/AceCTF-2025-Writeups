@@ -23,5 +23,6 @@ We received a suspicious image that had hidden information within its structure.
 🏆 Final Flag
 
 After modifying the height, the flag appeared:
-
+```
 ACECTF{th1s_sh0uld_b3_en0u6h}
+```
