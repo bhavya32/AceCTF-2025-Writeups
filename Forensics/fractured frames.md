@@ -2,6 +2,9 @@ Writeup: Fractured Frames (ACECTF)
 🔍 Challenge Overview
 
 We received a suspicious image that had hidden information within its structure. The hint suggested that the image wasn’t erased or encoded, but rather manipulated structurally.
+
+---
+
 🛠️ Solution Approach
 
 🔍 **Checking the Image Dimensions**  
@@ -19,6 +22,8 @@ We received a suspicious image that had hidden information within its structure.
 
 👀 **Viewing the Fixed Image**  
 - After modifying the height, the **hidden flag** became visible at the **bottom of the image**.
+
+---
 
 🏆 Final Flag
 
