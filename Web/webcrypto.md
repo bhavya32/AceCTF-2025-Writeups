@@ -19,3 +19,12 @@ Even though the hashes match, PHP still treats two different arrays as distinct,
 
 To exploit this behavior, we send tom and jerry as arrays with different values:
 ``https://chal.acectf.tech/Webrypto/?tom[]=a&jerry[]=b``
+
+
+Breakdown of the Payload:
+tom[]=a and jerry[]=b ensure that both parameters are treated as arrays.
+The MD5 hash computation becomes:
+``md5('ACECTF' . 'Array') == md5('ACECTF' . 'Array')``
+The first condition (tom != jerry) holds true since the two arrays are not identical in structure.
+
+This successfully bypasses the comparison, solving the challenge. 🎯
