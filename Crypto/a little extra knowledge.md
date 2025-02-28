@@ -1,6 +1,6 @@
 # A Little Extra Knowledge Is Too Dangerous  
 
-**Category:** Encoding/Decoding  
+**Category:** Crypto
 
 The challenge presents a text file containing an invalid Base64-encoded string. Your goal is to identify and correct the inconsistencies in the encoding, allowing for successful decoding of the hidden message.  
 
