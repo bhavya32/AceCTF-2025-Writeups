@@ -8,7 +8,8 @@ We received a suspicious image that had hidden information within its structure.
 🛠️ Solution Approach
 
 🔍 **Checking the Image Dimensions**  
-- Use `exiftool` to inspect the metadata:  
+- Use `exiftool` to inspect the metadata:
+  
   ```bash
   exiftool challenge.jpg
   ```  
