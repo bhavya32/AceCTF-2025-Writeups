@@ -1,0 +1,1 @@
+If this is that bash challenge, it was just modifying the bash to extract the python file irrespective of the checksum, the a key is visible in the python file, just run it, and use that key. flag is given in output

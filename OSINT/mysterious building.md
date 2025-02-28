@@ -1,6 +1,6 @@
 Use google lens to scan for the image 
 
-In image there is tower behind which is famous
+In image there is tower behind which is famous (pitampura tower)
 
 Now use google maps to get this location 
 
