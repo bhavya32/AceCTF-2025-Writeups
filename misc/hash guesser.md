@@ -1,0 +1,1 @@
+just guess 1 character at a time, the server tells how many chars are right.
