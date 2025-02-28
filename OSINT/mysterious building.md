@@ -1,15 +1,7 @@
-Use google lens to scan for the image 
+The tower shown in image is pitampura tower
+opening the maps and finding nearby stores
+found few close stores 
+then found a jwellery store
+clicked on it and opened the 360 view 
+found the logo and got the building ``PP Trade Centre``
 
-In image there is tower behind which is famous (pitampura tower)
-
-Now use google maps to get this location 
-
-We have to find the building which had the symbol
-
-It looked like a trading market place
-
-Search for nearby market place 
-
-You will find a jwellery store 
-
-There you use google 360 and find the building name
